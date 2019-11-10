@@ -1,0 +1,17 @@
+{
+  "name": "path-watcher-action",
+  "version": "1.0.0",
+  "description": "check whether the head commit involved a change in one of the input paths",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pheel/path-watcher-action.git"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@actions/core": "^1.1.0",
+    "@actions/github": "^1.1.0",
+    "@octokit/rest": "^16.15.0",
+    "minimatch": "^3.0.4"
+  }
+}

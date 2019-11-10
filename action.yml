@@ -1,0 +1,17 @@
+name: 'path-watcher-action'
+description: 'check whether the head commit involved a change in one of the input paths'
+inputs:
+  github_token:
+    description: 'github token'
+  paths:
+    description: 'comma separated list of paths'
+    required: true
+outputs:
+  modified:
+    description: 'whether the commit involves a change in any of the input paths'
+branding:
+  icon: 'zoom-in'
+  color: 'purple'
+runs:
+  using: 'node12'
+  main: 'index.js'
