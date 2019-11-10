@@ -7,9 +7,9 @@ try {
   const ghToken = core.getInput('github_token');
   const octokit = new Octokit(ghToken ? { auth: ghToken } : {});
   const paths = core.getInput('paths').split(',');
-  const commit_sha = github.context.payload.head_commit.id;
+  const ref = github.context.payload.head_commit.id;
   const [owner, repo] = github.context.payload.repository.full_name.split('/');
-  octokit.git.getCommit({ owner, repo, commit_sha })
+  octokit.repos.getCommit({ owner, repo, ref })
     .then(({ data: { files } }, err) => {
       if (err) throw new Error(err);
       if (Array.isArray(files)) {
