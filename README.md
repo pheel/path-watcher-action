@@ -4,7 +4,7 @@ Given a comma-separated list of globs, returns whether the head commit that trig
 
 Usage:
 
-```
+```yaml
 on: [push]
 
 jobs:
