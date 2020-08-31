@@ -6,9 +6,15 @@ inputs:
   paths:
     description: 'comma separated list of paths'
     required: true
+  return_files:
+    description: 'if true, ouput will contain an array with the changed paths"
+    required: false
+    default: false
 outputs:
   modified:
     description: 'whether the commit involves a change in any of the input paths'
+  modified_files:
+    description: 'array with the modified paths in the commit'
 branding:
   icon: 'zoom-in'
   color: 'purple'
