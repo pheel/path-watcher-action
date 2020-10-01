@@ -9,7 +9,7 @@
   },
   "license": "ISC",
   "dependencies": {
-    "@actions/core": "^1.1.0",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^1.1.0",
     "@octokit/rest": "^16.15.0",
     "minimatch": "^3.0.4"
