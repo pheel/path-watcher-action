@@ -16,6 +16,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }} # no need to set this secret, it is always available!
           paths: 'dir1/**/*,dir2/**/*'
+          return_files: true # if true, return an array of the modified paths. defaults to false.
       - if: steps.modified.outputs.modified
         run: echo "Hey some change happened in one of your watched paths!"
 ```

@@ -7,6 +7,7 @@ try {
   const ghToken = core.getInput('github_token');
   const octokit = new Octokit(ghToken ? { auth: ghToken } : {});
   const paths = core.getInput('paths').split(',');
+  const returnFiles = core.getInput('return_files') === 'true';
   const ref = github.context.payload.head_commit.id;
   const [owner, repo] = github.context.payload.repository.full_name.split('/');
   octokit.repos.getCommit({ owner, repo, ref })
@@ -14,8 +15,14 @@ try {
       if (err) throw new Error(err);
       if (Array.isArray(files)) {
         const modifiedPaths = files.map(f => f.filename);
-        const modified = paths.some(p => minimatch.match(modifiedPaths, p).length);
-        core.setOutput('modified', modified);
+        if(!returnFiles) {
+          const modified = paths.some(p => minimatch.match(modifiedPaths, p).length);
+          core.setOutput('modified', modified);
+        } else {
+          const modified_files = paths.flatMap(p => minimatch.match(modifiedPaths, p));
+          core.setOutput('modified', modified_files.length > 0);
+          core.setOutput('modified_files', modified_files);
+        }
       } else {
         core.setOutput('modified', false);
       }
