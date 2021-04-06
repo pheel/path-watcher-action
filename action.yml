@@ -7,7 +7,7 @@ inputs:
     description: 'comma separated list of paths'
     required: true
   return_files:
-    description: 'if true, ouput will contain an array with the changed paths"
+    description: 'if true, output will contain an array with the changed paths'
     required: false
     default: false
 outputs:
