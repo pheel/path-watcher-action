@@ -8,7 +8,9 @@ try {
   const octokit = new Octokit(ghToken ? { auth: ghToken } : {});
   const paths = core.getInput('paths').split(',');
   const returnFiles = core.getInput('return_files') === 'true';
-  const ref = github.context.payload.head_commit.id;
+  // When using pull_request, the context payload.head_commit is undefined. But we have after instead.
+  const ref = github.context.payload.head_commit ?
+    github.context.payload.head_commit.id : github.context.payload;
   const [owner, repo] = github.context.payload.repository.full_name.split('/');
   octokit.repos.getCommit({ owner, repo, ref })
     .then(({ data: { files } }, err) => {
