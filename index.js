@@ -10,7 +10,7 @@ try {
   const returnFiles = core.getInput('return_files') === 'true';
   // When using pull_request, the context payload.head_commit is undefined. But we have after instead.
   const ref = github.context.payload.head_commit ?
-    github.context.payload.head_commit.id : github.context.payload;
+    github.context.payload.head_commit.id : github.context.payload.after;
   const [owner, repo] = github.context.payload.repository.full_name.split('/');
   octokit.repos.getCommit({ owner, repo, ref })
     .then(({ data: { files } }, err) => {
