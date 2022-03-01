@@ -18,6 +18,8 @@ const minimatch = require('minimatch');
     core.info(JSON.stringify(github.context.payload, null, 2));
   }
 
+  core.info(JSON.stringify(github.context.payload, null, 2));
+
   if (!ref) {
     core.setOutput('modified', true);
     return
