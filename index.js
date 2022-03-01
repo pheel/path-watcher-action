@@ -9,10 +9,14 @@ const minimatch = require('minimatch');
   const paths = core.getInput('paths').split(',');
 
   // When using pull_request, the context payload.head_commit is undefined. But we have after instead.
-  const ref = github.context.payload.head_commit ?
-    github.context.payload.head_commit.id : github.context.payload.after;
+  let ref;
 
-  core.info(JSON.stringify(github.context.payload, null, 2));
+  try {
+    ref = github.context.payload.head_commit ?
+      github.context.payload.head_commit.id : github.context.payload.pull_request.base.sha;
+  } catch {
+    core.info(JSON.stringify(github.context.payload, null, 2));
+  }
 
   if (!ref) {
     core.setOutput('modified', true);
@@ -28,6 +32,7 @@ const minimatch = require('minimatch');
   }
 
   if (Array.isArray(files)) {
+    const modifiedPaths = files.map(f => f.filename);
     const modified = paths.some(p => minimatch.match(modifiedPaths, p).length);
     core.setOutput('modified', modified);
     return
