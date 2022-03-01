@@ -31,4 +31,6 @@ try {
   });
 } catch (error) {
   core.setFailed(error.message);
+  // When we error, we set modified to true to make sure the tests run.
+  core.setOutput('modified', true);
 }
