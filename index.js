@@ -12,6 +12,8 @@ async(() => {
   const ref = github.context.payload.head_commit ?
     github.context.payload.head_commit.id : github.context.payload.after;
 
+  core.info(JSON.stringify(github.context.payload, null, 2));
+
   if (!ref) {
     core.setOutput('modified', true);
     return
@@ -20,7 +22,7 @@ async(() => {
   const [owner, repo] = github.context.payload.repository.full_name.split('/');
   const { data: { files }, err } = await octokit.repos.getCommit({ owner, repo, ref })
   if (err) {
-    console.error(err);
+    core.error(err);
     core.setOutput('modified', true);
     return
   }
