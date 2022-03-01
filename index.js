@@ -25,15 +25,8 @@ const minimatch = require('minimatch');
     repo = parts[1];
   }
 
-  try {
-    ref = github.context.payload.head_commit ?
-      github.context.payload.head_commit.id : github.context.payload.pull_request.base.sha;
-  } catch {
-    core.info(JSON.stringify(github.context.payload, null, 2));
-  }
-
   if (!ref) {
-    core.info('failed to get ref');
+    core.info(JSON.stringify(github.context.payload, null, 2));
     core.setOutput('modified', true);
     return
   }
