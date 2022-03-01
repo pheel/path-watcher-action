@@ -7,10 +7,23 @@ const minimatch = require('minimatch');
   const ghToken = core.getInput('github_token');
   const octokit = new Octokit(ghToken ? { auth: ghToken } : {});
   const paths = core.getInput('paths').split(',');
-  core.info(JSON.stringify(paths, null, 2));
 
   // When using pull_request, the context payload.head_commit is undefined. But we have after instead.
-  let ref;
+  let ref, owner, repo;
+
+  if (github.context.payload.head_commit) {
+    ref = github.context.payload.head_commit.id;
+    const parts = github.context.payload.repository.full_name.split('/');
+    owner = parts[0];
+    repo = parts[1];
+  }
+
+  if (github.context.payload.pull_request) {
+    ref = github.context.payload.pull_request.head.sha;
+    const parts = github.context.payload.pull_request.head.repo.full_name.split('/');
+    owner = parts[0];
+    repo = parts[1];
+  }
 
   try {
     ref = github.context.payload.head_commit ?
@@ -19,18 +32,14 @@ const minimatch = require('minimatch');
     core.info(JSON.stringify(github.context.payload, null, 2));
   }
 
-  core.info(JSON.stringify(github.context.payload, null, 2));
-
   if (!ref) {
     core.info('failed to get ref');
     core.setOutput('modified', true);
     return
   }
 
-  const [owner, repo] = github.context.payload.repository.full_name.split('/');
   const { data: { files }, err } = await octokit.repos.getCommit({ owner, repo, ref })
   if (err) {
-    core.info('got error')
     core.error(err);
     core.setOutput('modified', true);
     return
