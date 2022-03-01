@@ -3,7 +3,7 @@ const github = require('@actions/github');
 const Octokit = require("@octokit/rest");
 const minimatch = require('minimatch');
 
-async(() => {
+(async () => {
   const ghToken = core.getInput('github_token');
   const octokit = new Octokit(ghToken ? { auth: ghToken } : {});
   const paths = core.getInput('paths').split(',');
